@@ -61,13 +61,6 @@ h1{font-family:var(--display);font-weight:800;font-stretch:118%;font-size:clamp(
 .btn[disabled]{opacity:.45;cursor:default}
 
 /* home */
-.tg{display:flex;align-items:center;gap:14px;width:100%;text-align:left;margin-top:14px;padding:12px 14px;min-height:58px;border-radius:8px;border:1.5px solid var(--line);background:var(--paper)}
-.tg b{font-family:var(--display);font-weight:700}
-.tg small{display:block;color:var(--muted);font-size:.8125rem;line-height:1.35}
-.tg .sw{flex:none;margin-left:auto;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;transition:background .15s}
-.tg .sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 1px rgba(0,0,0,.15);transition:transform .15s}
-.tg[aria-checked="true"] .sw{background:var(--accent)}
-.tg[aria-checked="true"] .sw::after{transform:translateX(18px)}
 .sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:30px 0 4px;padding-bottom:6px;border-bottom:1.5px solid var(--line)}
 .exam{margin-top:12px;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);overflow:hidden}
 .exam header{padding:16px 16px 12px}
@@ -124,7 +117,7 @@ h1{font-family:var(--display);font-weight:800;font-stretch:118%;font-size:clamp(
 @media (pointer:coarse){.keys{display:none}}
 .pop{animation:pop .22s ease-out}
 @keyframes pop{from{transform:rotate(-5deg) scale(1.35);opacity:0}to{transform:rotate(-5deg) scale(1);opacity:1}}
-@media (prefers-reduced-motion:reduce){.pop{animation:none}.bar i,.tg .sw,.tg .sw::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}.bar i{transition:none}}
 
 /* results */
 .score{margin-top:18px;padding:22px 16px 24px;border:1.5px solid var(--line-strong);border-radius:8px;background:var(--paper);text-align:center}
@@ -157,17 +150,17 @@ var DATA = {"exams": [{"id": "e1", "title": "Exam 1", "sub": "Foundations of bus
   EXAMS.push({ id: 'e4', title: 'Exam 4', soon: true, topics: 'Chapters to be announced' });
 
   var app = document.getElementById('app');
-  var state = { view: 'home', shuffleQ: false, run: null, best: {} };
+  var state = { view: 'home', run: null, best: {} };
   var STORE = 'buscom-practice-v1';
 
   function load() {
     try {
       var raw = localStorage.getItem(STORE);
-      if (raw) { var o = JSON.parse(raw); state.best = o.best || {}; state.shuffleQ = !!o.shuffleQ; }
+      if (raw) { var o = JSON.parse(raw); state.best = o.best || {}; }
     } catch (e) {}
   }
   function save() {
-    try { localStorage.setItem(STORE, JSON.stringify({ best: state.best, shuffleQ: state.shuffleQ })); } catch (e) {}
+    try { localStorage.setItem(STORE, JSON.stringify({ best: state.best })); } catch (e) {}
   }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -192,7 +185,7 @@ var DATA = {"exams": [{"id": "e1", "title": "Exam 1", "sub": "Foundations of bus
     var e = EXAMS[ei], s = e.sets[si];
     var src = e.title + ' · ' + s.name;
     var qs = s.qs.map(function (it) { return prep(it, src); });
-    if (state.shuffleQ) qs = shuffle(qs);
+    qs = shuffle(qs);
     state.run = { key: e.id + '-' + si, title: e.title + ' · ' + s.name, qs: qs, i: 0, picked: null, score: 0, missed: [], total: qs.length };
     state.view = 'quiz'; render(true);
   }
@@ -217,9 +210,8 @@ var DATA = {"exams": [{"id": "e1", "title": "Exam 1", "sub": "Foundations of bus
     EXAMS.forEach(function (e) { if (e.live) e.sets.forEach(function (s) { total += s.qs.length; }); });
     var h = '';
     h += '<div class="head"><h1>Business Communications Practice Exams</h1>';
-    h += '<dl class="memo"><dt>Status</dt><dd>Exams 1 and 2 ready (' + total + ' questions). Exams 3 and 4 coming soon.</dd></dl></div>';
+    h += '<dl class="memo"><dt>Status</dt><dd>Exams 1 and 2 ready (' + total + ' questions). Exams 3 and 4 coming soon.</dd><dt>Order</dt><dd>Questions and answer choices are mixed up every time you start a set.</dd></dl></div>';
 
-    h += '<button class="tg" role="switch" aria-checked="' + state.shuffleQ + '" data-act="shuf"><span><b>Shuffle question order</b><small>Answer choices always shuffle. Turn this on to mix the questions in each set too.</small></span><span class="sw"></span></button>';
 
     h += '<div class="sec"><span class="mono">By exam</span></div>';
     EXAMS.forEach(function (e, ei) {
@@ -317,7 +309,6 @@ var DATA = {"exams": [{"id": "e1", "title": "Exam 1", "sub": "Foundations of bus
     var t = ev.target.closest('[data-act]'); if (!t) return;
     var a = t.getAttribute('data-act');
     if (a === 'set') startSet(+t.getAttribute('data-e'), +t.getAttribute('data-s'));
-    else if (a === 'shuf') { state.shuffleQ = !state.shuffleQ; save(); render(); }
     else if (a === 'pick') pick(+t.getAttribute('data-k'));
     else if (a === 'next') next();
     else if (a === 'home') { state.view = 'home'; render('top'); }

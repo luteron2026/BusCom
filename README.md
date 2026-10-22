@@ -6,7 +6,7 @@ An interactive, single-page practice tool for Business Communications exams.
 - **Exam 2** – Chapters 6–9 (Sets A–C)
 - Exams 3 and 4 – coming soon
 
-200 multiple-choice questions with instant feedback, explanations, a "retake the ones you missed" mode, optional question shuffling, and best scores saved in your browser.
+200 multiple-choice questions with instant feedback, explanations, a "retake the ones you missed" mode, questions and answer choices shuffled on every attempt, and best scores saved in your browser.
 
 ## Use it
 

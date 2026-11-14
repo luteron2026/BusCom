@@ -4,10 +4,10 @@ An interactive, single-page practice tool for Business Communications exams.
 
 - **Exam 1** – Foundations of business communication (Sets A–B)
 - **Exam 2** – Chapters 6–9 (Sets A–F, plus a quick review sheet)
-- **Exam 3** – GMU grammar appendix and Chapters 10–12 (Sets A–C plus a 40-question Grammar Drill and a 40-question Grammar Rules Quiz, including true/false)
+- **Exam 3** – GMU grammar appendix and Chapters 10–12 (Sets A–C plus a 40-question Grammar Drill a 40-question Grammar Rules Quiz, and a 40-question "My Misses" set, including true/false)
 - Exam 4 – coming soon
 
-460 questions with instant feedback, explanations, a "retake the ones you missed" mode, questions and answer choices shuffled on every attempt, and best scores saved in your browser. Each exam is a collapsible section on the home screen, so you can open only the one you're studying.
+500 questions with instant feedback, explanations, a "retake the ones you missed" mode, questions and answer choices shuffled on every attempt, and best scores saved in your browser. Each exam is a collapsible section on the home screen, so you can open only the one you're studying.
 
 ## Use it
 
